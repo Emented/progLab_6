@@ -6,7 +6,7 @@ public final class Client {
     }
 
     public static void main(String[] args) {
-        ClientWorker app = new ClientWorker();
-        app.startClientWorker();
+        ClientWorker clientWorker = new ClientWorker();
+        clientWorker.startClientWorker();
     }
 }

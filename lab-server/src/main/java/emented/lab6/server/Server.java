@@ -9,7 +9,7 @@ public final class Server {
     }
 
     public static void main(String[] args) throws IOException {
-        ServerWorker serverApp = new ServerWorker("MusicBands.xml");
-        serverApp.startServerWorker();
+        ServerWorker serverWorker = new ServerWorker("MusicBands.xml");
+        serverWorker.startServerWorker();
     }
 }
