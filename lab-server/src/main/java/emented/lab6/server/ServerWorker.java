@@ -3,11 +3,14 @@ package emented.lab6.server;
 import emented.lab6.common.util.Request;
 import emented.lab6.common.util.Response;
 import emented.lab6.common.util.TextColoring;
+import emented.lab6.server.Threads.ConsoleThread;
+import emented.lab6.server.Threads.RequestThread;
 import emented.lab6.server.clientCommands.*;
 import emented.lab6.server.serverCommands.ServerExitCommand;
 import emented.lab6.server.serverCommands.ServerHelpCommand;
 import emented.lab6.server.serverCommands.ServerSaveCommand;
 import emented.lab6.server.util.CommandManager;
+import emented.lab6.server.util.ServerCommandListener;
 import emented.lab6.server.util.ServerSocketWorker;
 
 import java.io.IOException;
@@ -21,6 +24,7 @@ public class ServerWorker {
     private String fileName;
     private final Scanner scanner = new Scanner(System.in);
     private boolean statusOfRunning = true;
+    ServerCommandListener serverCommandListener = new ServerCommandListener(scanner);
 
     public ServerWorker(String fileName) {
         this.fileName = fileName;
@@ -53,15 +57,11 @@ public class ServerWorker {
                     new ServerExitCommand(),
                     new ServerSaveCommand(ServerConfig.getCollectionOfMusicBands(), ServerConfig.getParser())));
             inputPort();
-            while (statusOfRunning) {
-                try {
-                    Request acceptedRequest = serverSocketWorker.listenForRequest();
-                    Response responseToSend = ServerConfig.getCommandManager().executeCommandToResponse(acceptedRequest);
-                    serverSocketWorker.sendResponse(responseToSend);
-                } catch (ClassNotFoundException e) {
-                    ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("An error occurred while deserializing the request, try again"));
-                }
-            }
+            ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Welcom to the server! To see the list of commands input HELP"));
+            RequestThread requestThread = new RequestThread(serverSocketWorker);
+            ConsoleThread consoleThread = new ConsoleThread(scanner, serverCommandListener);
+            requestThread.start();
+            consoleThread.start();
         } catch (IOException e) {
             ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
         }

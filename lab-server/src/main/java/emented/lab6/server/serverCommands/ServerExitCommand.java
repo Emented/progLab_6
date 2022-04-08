@@ -1,5 +1,7 @@
 package emented.lab6.server.serverCommands;
 
+import emented.lab6.common.util.TextColoring;
+import emented.lab6.server.ServerConfig;
 import emented.lab6.server.abstractions.AbstractServerCommand;
 
 public class ServerExitCommand extends AbstractServerCommand {
@@ -10,6 +12,7 @@ public class ServerExitCommand extends AbstractServerCommand {
 
     @Override
     public String executeCommand() {
-        return null;
+        ServerConfig.toggleRun();
+        return TextColoring.getGreenText("Server shutdown");
     }
 }

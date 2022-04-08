@@ -1,7 +1,7 @@
 package emented.lab6.client;
 
 import emented.lab6.client.util.*;
-import emented.lab6.client.workWithCommandLine.CommandListener;
+import emented.lab6.client.workWithCommandLine.ClientCommandListener;
 import emented.lab6.common.exceptions.WrongAmountOfArgsException;
 import emented.lab6.common.util.Request;
 import emented.lab6.common.util.Response;
@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class ClientWorker {
     private final Scanner scanner = new Scanner(System.in);
     private ClientSocketWorker clientSocketWorker;
-    private final CommandListener commandListener = new CommandListener(System.in);
+    private final ClientCommandListener commandListener = new ClientCommandListener(System.in);
     private final RequestCreator requestCreator = new RequestCreator();
     private boolean statusOfCommandListening = true;
 

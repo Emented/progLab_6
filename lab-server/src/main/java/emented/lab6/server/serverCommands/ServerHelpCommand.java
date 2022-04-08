@@ -21,6 +21,7 @@ public class ServerHelpCommand extends AbstractServerCommand {
         for (AbstractServerCommand command : availableCommands.values()) {
             sb.append(command.toString()).append("\n");
         }
-        return TextColoring.getGreenText("Available commands: " + sb);
+        sb = new StringBuilder(sb.substring(0, sb.length() - 2));
+        return TextColoring.getGreenText("Available commands:\n") + sb;
     }
 }

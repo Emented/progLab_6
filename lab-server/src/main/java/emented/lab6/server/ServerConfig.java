@@ -23,6 +23,15 @@ public final class ServerConfig {
     private static final XMLParser parser = new XMLParser();
     private static CollectionManager collectionOfMusicBands = new CollectionManager();
     private static CommandManager commandManager;
+    private static boolean isRunning = true;
+
+    public static boolean getRunning() {
+        return isRunning;
+    }
+
+    public static void toggleRun() {
+        isRunning = !isRunning;
+    }
 
     public static void setCollectionOfMusicBands(CollectionManager manager) {
         collectionOfMusicBands = manager;

@@ -44,9 +44,14 @@ public class ServerSocketWorker {
     }
 
     public Request listenForRequest() throws IOException, ClassNotFoundException {
-        selector.select();
+        if (selector.select(100) == 0) {
+            return null;
+        }
         Set<SelectionKey> readyKeys = selector.selectedKeys();
-        for (SelectionKey key : readyKeys) {
+        Iterator<SelectionKey> iterator = readyKeys.iterator();
+        while (iterator.hasNext()) {
+            SelectionKey key = iterator.next();
+            iterator.remove();
             if (key.isReadable()) {
                 ByteBuffer packet = ByteBuffer.allocate(4096);
                 socketAddress = datagramChannel.receive(packet);

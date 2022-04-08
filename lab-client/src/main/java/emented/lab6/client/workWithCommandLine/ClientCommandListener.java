@@ -3,7 +3,6 @@ package emented.lab6.client.workWithCommandLine;
 import emented.lab6.client.ClientConfig;
 import emented.lab6.client.util.CommandToSend;
 import emented.lab6.common.util.TextColoring;
-import emented.lab6.common.util.TextPrinter;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -11,12 +10,12 @@ import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class CommandListener {
+public class ClientCommandListener {
 
     private final Scanner sc;
 
 
-    public CommandListener(InputStream inputStream) {
+    public ClientCommandListener(InputStream inputStream) {
         sc = new Scanner(inputStream);
     }
 
