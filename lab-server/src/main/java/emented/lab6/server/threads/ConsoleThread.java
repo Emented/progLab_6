@@ -1,4 +1,4 @@
-package emented.lab6.server.Threads;
+package emented.lab6.server.threads;
 
 import emented.lab6.server.ServerConfig;
 import emented.lab6.server.util.ServerCommandListener;

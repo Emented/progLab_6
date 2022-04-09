@@ -2,8 +2,8 @@ package emented.lab6.server;
 
 import com.thoughtworks.xstream.converters.ConversionException;
 import emented.lab6.common.util.TextColoring;
-import emented.lab6.server.Threads.ConsoleThread;
-import emented.lab6.server.Threads.RequestThread;
+import emented.lab6.server.threads.ConsoleThread;
+import emented.lab6.server.threads.RequestThread;
 import emented.lab6.server.clientCommands.AddCommand;
 import emented.lab6.server.clientCommands.AddIfMaxCommand;
 import emented.lab6.server.clientCommands.ClearCommand;
