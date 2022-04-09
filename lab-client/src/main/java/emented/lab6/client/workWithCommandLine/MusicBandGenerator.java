@@ -1,10 +1,10 @@
 package emented.lab6.client.workWithCommandLine;
 
+import emented.lab6.client.util.CommandValidators;
 import emented.lab6.common.entities.Coordinates;
 import emented.lab6.common.entities.MusicBand;
 import emented.lab6.common.entities.Studio;
 import emented.lab6.common.entities.enums.MusicGenre;
-import emented.lab6.client.util.CommandValidators;
 
 import java.util.Locale;
 import java.util.Scanner;

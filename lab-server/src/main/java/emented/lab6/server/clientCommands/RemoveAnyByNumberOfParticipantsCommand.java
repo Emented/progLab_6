@@ -13,16 +13,16 @@ public class RemoveAnyByNumberOfParticipantsCommand extends AbstractClientComman
 
     private final CollectionManager collectionInWork;
 
-    public RemoveAnyByNumberOfParticipantsCommand(CollectionManager CollectionManager) {
+    public RemoveAnyByNumberOfParticipantsCommand(CollectionManager collectionManager) {
         super("remove_any_by_number_of_participants",
                 1,
                 "delete a group with a specified number of members from the collection",
                 "number of participants");
-        this.collectionInWork = CollectionManager;
+        this.collectionInWork = collectionManager;
     }
 
     @Override
-    public Response executeCommand(Request request) {
+    public Response executeClientCommand(Request request) {
         try {
             collectionInWork.removeAnyByNumberOfParticipants(request.getNumericArgument());
             return new Response(new SuccessMessage("MusicBand with " + request.getNumericArgument() + " participants was removed"));

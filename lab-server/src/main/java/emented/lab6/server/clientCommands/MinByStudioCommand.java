@@ -12,13 +12,13 @@ public class MinByStudioCommand extends AbstractClientCommand {
 
     private final CollectionManager collectionInWork;
 
-    public MinByStudioCommand(CollectionManager CollectionManager) {
+    public MinByStudioCommand(CollectionManager collectionManager) {
         super("min_by_studio", 0, "output any object from the collection whose studio field value is minimal");
-        this.collectionInWork = CollectionManager;
+        this.collectionInWork = collectionManager;
     }
 
     @Override
-    public Response executeCommand(Request request) {
+    public Response executeClientCommand(Request request) {
         try {
             return new Response(new SuccessMessage("Minimal element:"), collectionInWork.returnMinByStudio());
         } catch (CollectionIsEmptyException e) {

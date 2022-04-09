@@ -2,7 +2,6 @@ package emented.lab6.server.clientCommands;
 
 
 import emented.lab6.common.util.DefaultMassage;
-import emented.lab6.common.util.SuccessMessage;
 import emented.lab6.common.util.Request;
 import emented.lab6.common.util.Response;
 import emented.lab6.server.abstractions.AbstractClientCommand;
@@ -19,7 +18,7 @@ public class HistoryCommand extends AbstractClientCommand {
     }
 
     @Override
-    public Response executeCommand(Request request) {
+    public Response executeClientCommand(Request request) {
         StringBuilder sb = new StringBuilder();
         if (!queueOfCommands.isEmpty()) {
             for (String name : queueOfCommands) {
@@ -28,7 +27,7 @@ public class HistoryCommand extends AbstractClientCommand {
         } else {
             sb.append("History is empty");
         }
-        sb = new StringBuilder(sb.substring(0, sb.length() - 2));
+        sb = new StringBuilder(sb.substring(0, sb.length() - 1));
         return new Response(new DefaultMassage(sb.toString()));
     }
 }

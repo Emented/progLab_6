@@ -10,7 +10,10 @@ import java.util.Scanner;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class CommandValidators {
+public final class CommandValidators {
+
+    private CommandValidators() {
+    }
 
     public static <T> T validateInput(Predicate<Object> predicate,
                                       String message,

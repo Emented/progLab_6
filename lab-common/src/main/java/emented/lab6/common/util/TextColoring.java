@@ -1,10 +1,13 @@
 package emented.lab6.common.util;
 
-public class TextColoring {
+public final class TextColoring {
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[32m";
     private static final String ANSI_BLUE = "\u001B[34m";
+
+    private TextColoring() {
+    }
 
     public static String getRedText(String text) {
         return ANSI_RED + text + ANSI_RESET;

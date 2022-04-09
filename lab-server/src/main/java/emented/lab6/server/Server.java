@@ -1,6 +1,6 @@
 package emented.lab6.server;
 
-import java.io.IOException;
+import emented.lab6.common.util.TextColoring;
 
 public final class Server {
 
@@ -8,8 +8,16 @@ public final class Server {
         throw new UnsupportedOperationException("This is an utility class and can not be instantiated");
     }
 
-    public static void main(String[] args) throws IOException {
-        ServerWorker serverWorker = new ServerWorker("MusicBands.xml");
-        serverWorker.startServerWorker();
+    public static void main(String[] args) {
+//        ServerWorker serverWorker = new ServerWorker("MusicBands.xml");
+//        serverWorker.startServerWorker();
+        if (args.length == 1) {
+            ServerWorker serverWorker = new ServerWorker(args[0]);
+            serverWorker.startServerWorker();
+        } else {
+            ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("Wrong amount of args during entering launch command, " +
+                    "you must enter only file name for collection"));
+            System.exit(1);
+        }
     }
 }

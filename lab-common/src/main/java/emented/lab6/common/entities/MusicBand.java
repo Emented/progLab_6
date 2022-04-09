@@ -42,21 +42,21 @@ public class MusicBand implements Serializable, Comparable<MusicBand> {
     }
 
     /**
-     * Метод, устанавливающий ID по данному
-     *
-     * @param id Новый ID
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
      * Метод, возвращающий ID
      *
      * @return ID объекта
      */
     public Long getId() {
         return id;
+    }
+
+    /**
+     * Метод, устанавливающий ID по данному
+     *
+     * @param id Новый ID
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**

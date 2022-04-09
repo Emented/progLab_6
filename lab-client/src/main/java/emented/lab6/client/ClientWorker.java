@@ -1,6 +1,11 @@
 package emented.lab6.client;
 
-import emented.lab6.client.util.*;
+import emented.lab6.client.util.AvailableCommands;
+import emented.lab6.client.util.ClientSocketWorker;
+import emented.lab6.client.util.CommandToSend;
+import emented.lab6.client.util.CommandValidators;
+import emented.lab6.client.util.RequestCreator;
+import emented.lab6.client.util.ScriptReader;
 import emented.lab6.client.workWithCommandLine.ClientCommandListener;
 import emented.lab6.common.exceptions.WrongAmountOfArgsException;
 import emented.lab6.common.util.Request;
@@ -18,9 +23,10 @@ import java.util.Scanner;
 
 public class ClientWorker {
     private final Scanner scanner = new Scanner(System.in);
-    private ClientSocketWorker clientSocketWorker;
     private final ClientCommandListener commandListener = new ClientCommandListener(System.in);
     private final RequestCreator requestCreator = new RequestCreator();
+    private final int maxPort = 65535;
+    private ClientSocketWorker clientSocketWorker;
     private boolean statusOfCommandListening = true;
 
     public void startClientWorker() {
@@ -31,8 +37,9 @@ public class ClientWorker {
             CommandToSend command = commandListener.readCommand();
             if (command != null) {
                 if ("exit".equals(command.getCommandName().toLowerCase(Locale.ROOT))) {
+                    ClientConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Client shutdown"));
                     toggleStatus();
-                } else if (AvailableCommands.scriptArgumentCommand.equals(command.getCommandName())) {
+                } else if (AvailableCommands.SCRIPT_ARGUMENT_COMMAND.equals(command.getCommandName())) {
                     executeScript(command.getCommandArgs());
                 } else {
                     if (sendRequest(command)) {
@@ -53,8 +60,7 @@ public class ClientWorker {
             String s = scanner.nextLine().toLowerCase(Locale.ROOT);
             if ("y".equals(s)) {
                 clientSocketWorker = new ClientSocketWorker();
-            }
-            else if ("n".equals(s)) {
+            } else if ("n".equals(s)) {
                 ClientConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Please enter the server's internet address"));
                 String address = scanner.nextLine();
                 clientSocketWorker = new ClientSocketWorker();
@@ -84,7 +90,7 @@ public class ClientWorker {
                 String port = scanner.nextLine();
                 try {
                     int portInt = Integer.parseInt(port);
-                    if (portInt > 0 && portInt <= 65535) {
+                    if (portInt > 0 && portInt <= maxPort) {
                         clientSocketWorker.setPort(portInt);
                     } else {
                         ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("The number did not fall within the limits, repeat the input"));
@@ -94,9 +100,7 @@ public class ClientWorker {
                     ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("Error processing the number, repeat the input"));
                     inputPort();
                 }
-            } else if ("y".equals(s)) {
-                return;
-            } else {
+            } else if (!"y".equals(s)) {
                 ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("You entered not valid symbol, try again"));
                 inputPort();
             }
@@ -140,7 +144,7 @@ public class ClientWorker {
             ScriptReader reader = new ScriptReader();
 
             if (ClientConfig.getHistoryOfScripts().contains(args[0])) {
-                ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("Possible looping"));
+                ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("Possible looping, change your script"));
             } else {
                 reader.readCommandsFromFile(args[0]);
                 ClientConfig.getHistoryOfScripts().add(args[0]);

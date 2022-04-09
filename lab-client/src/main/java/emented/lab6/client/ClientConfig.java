@@ -6,14 +6,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class ClientConfig {
-    private final static TextPrinter TEXT_PRINTER = new TextPrinter(System.out);
-    private final static Set<String> historyOfScripts = new HashSet<>();
+    private static final TextPrinter TEXT_PRINTER = new TextPrinter(System.out);
+    private static final Set<String> HISTORY_OF_SCRIPTS = new HashSet<>();
+
+    private ClientConfig() {
+    }
 
     public static TextPrinter getTextPrinter() {
         return TEXT_PRINTER;
     }
 
     public static Set<String> getHistoryOfScripts() {
-        return historyOfScripts;
+        return HISTORY_OF_SCRIPTS;
     }
 }

@@ -18,7 +18,7 @@ public class RemoveByIdCommand extends AbstractClientCommand {
     }
 
     @Override
-    public Response executeCommand(Request request) {
+    public Response executeClientCommand(Request request) {
         try {
             collectionInWork.removeBandById(request.getNumericArgument());
             return new Response(new SuccessMessage("Group with ID " + request.getNumericArgument() + " was deleted from collection"));

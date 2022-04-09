@@ -7,8 +7,13 @@ import java.nio.ByteBuffer;
 
 public final class Serializer {
 
+    private static final int ARRAY_SIZE = 4096;
+
+    private Serializer() {
+    }
+
     public static ByteBuffer serializeRequest(Request request) throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(4096);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(ARRAY_SIZE);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
         objectOutputStream.writeObject(request);
         objectOutputStream.flush();
@@ -19,7 +24,7 @@ public final class Serializer {
     }
 
     public static ByteBuffer serializeResponse(Response response) throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(4096);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(ARRAY_SIZE);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
         objectOutputStream.writeObject(response);
         objectOutputStream.flush();

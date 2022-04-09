@@ -51,12 +51,12 @@ public class CommandManager {
 
     public Response executeClientCommand(Request request) {
         ServerConfig.getClientCommandHistory().pushCommand(request.getCommandName());
-        return ServerConfig.getClientAvailableCommands().get(request.getCommandName()).executeCommand(request);
+        return ServerConfig.getClientAvailableCommands().get(request.getCommandName()).executeClientCommand(request);
     }
 
     public String executeServerCommand(String commandName) {
         if (ServerConfig.getServerAvailableCommands().containsKey(commandName)) {
-            return ServerConfig.getServerAvailableCommands().get(commandName).executeCommand();
+            return ServerConfig.getServerAvailableCommands().get(commandName).executeServerCommand();
         } else {
             return TextColoring.getRedText("There is no such command, type HELP to get list on commands");
         }

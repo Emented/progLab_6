@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * ENUM, хранящий возможные жанры музыки
  */
-public enum MusicGenre implements Serializable  {
+public enum MusicGenre implements Serializable {
     PROGRESSIVE_ROCK,
     PSYCHEDELIC_CLOUD_RAP,
     JAZZ,

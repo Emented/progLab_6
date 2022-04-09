@@ -24,7 +24,7 @@ public abstract class AbstractClientCommand {
         this.descriptionOfArgs = "";
     }
 
-    public abstract Response executeCommand(Request request);
+    public abstract Response executeClientCommand(Request request);
 
     public String getName() {
         return name;

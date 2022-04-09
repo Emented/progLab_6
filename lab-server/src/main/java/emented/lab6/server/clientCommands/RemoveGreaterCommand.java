@@ -15,13 +15,13 @@ public class RemoveGreaterCommand extends AbstractClientCommand {
 
     private final CollectionManager collectionInWork;
 
-    public RemoveGreaterCommand(CollectionManager CollectionManager) {
+    public RemoveGreaterCommand(CollectionManager collectionManager) {
         super("remove_greater", 0, "remove all items from the collection that exceed the specified");
-        this.collectionInWork = CollectionManager;
+        this.collectionInWork = collectionManager;
     }
 
     @Override
-    public Response executeCommand(Request request) {
+    public Response executeClientCommand(Request request) {
         try {
             Set<MusicBand> res = collectionInWork.removeIfGreater(request.getBandArgument());
             if (res.isEmpty()) {

@@ -4,7 +4,11 @@ import emented.lab6.common.abstractions.AbstractResponseMessage;
 import emented.lab6.common.entities.MusicBand;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Response implements Serializable {
 
@@ -46,14 +50,22 @@ public class Response implements Serializable {
         return collectionToResponse;
     }
 
+    public String getInfoAboutResponse() {
+        return "Response contains: " + (messageToResponse == null ? "" : "message")
+                + (bandToResponse == null ? "" : ", musicband")
+                + (collectionToResponse == null ? "" : ", collection");
+    }
+
     @Override
     public String toString() {
         StringBuilder collection = new StringBuilder();
         if (collectionToResponse != null) {
-            for (MusicBand m : collectionToResponse) {
+            List<MusicBand> sortedBands = new ArrayList<>(collectionToResponse);
+            sortedBands = sortedBands.stream().sorted(Comparator.comparing(SizeAnalyzer::getSizeOfBand).reversed()).collect(Collectors.toList());
+            for (MusicBand m : sortedBands) {
                 collection.append(m.toString()).append("\n");
             }
-            collection = new StringBuilder(collection.substring(0, collection.length() - 2));
+            collection = new StringBuilder(collection.substring(0, collection.length() - 1));
         }
         return (messageToResponse == null ? "" : messageToResponse.getMessage())
                 + (bandToResponse == null ? "" : "\n" + bandToResponse)

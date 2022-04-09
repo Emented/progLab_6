@@ -8,7 +8,6 @@ import emented.lab6.common.util.Serializer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.SelectionKey;
@@ -18,23 +17,26 @@ import java.util.Set;
 
 public class ServerSocketWorker {
 
+    private static final int ARRAY_SIZE = 4096;
+    private final int defaultPort = 228;
+    private final int selectorDelay = 100;
     private Selector selector;
     private DatagramChannel datagramChannel;
     private SocketAddress socketAddress;
-    private int port = 228;
+    private int port = defaultPort;
 
-    public ServerSocketWorker(int port) throws IOException {
-        initialization(port);
+    public ServerSocketWorker(int aPort) throws IOException {
+        initialization(aPort);
     }
 
     public ServerSocketWorker() throws IOException {
-        initialization(this.port);
+        initialization(this.defaultPort);
     }
 
-    private void initialization(int port) throws IOException {
+    private void initialization(int aPort) throws IOException {
         datagramChannel = DatagramChannel.open();
         selector = Selector.open();
-        datagramChannel.socket().bind(new InetSocketAddress(port));
+        datagramChannel.socket().bind(new InetSocketAddress(aPort));
         datagramChannel.configureBlocking(false);
         datagramChannel.register(selector, SelectionKey.OP_READ);
     }
@@ -44,7 +46,7 @@ public class ServerSocketWorker {
     }
 
     public Request listenForRequest() throws IOException, ClassNotFoundException {
-        if (selector.select(100) == 0) {
+        if (selector.select(selectorDelay) == 0) {
             return null;
         }
         Set<SelectionKey> readyKeys = selector.selectedKeys();
@@ -53,7 +55,7 @@ public class ServerSocketWorker {
             SelectionKey key = iterator.next();
             iterator.remove();
             if (key.isReadable()) {
-                ByteBuffer packet = ByteBuffer.allocate(4096);
+                ByteBuffer packet = ByteBuffer.allocate(ARRAY_SIZE);
                 socketAddress = datagramChannel.receive(packet);
                 packet.flip();
                 byte[] bytes = new byte[packet.remaining()];

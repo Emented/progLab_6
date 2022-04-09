@@ -4,7 +4,6 @@ import emented.lab6.common.entities.Coordinates;
 import emented.lab6.common.entities.MusicBand;
 import emented.lab6.common.entities.Studio;
 import emented.lab6.common.util.TextColoring;
-import emented.lab6.server.Server;
 import emented.lab6.server.ServerConfig;
 import emented.lab6.server.util.CollectionManager;
 
@@ -21,14 +20,18 @@ import java.util.logging.Level;
  */
 public final class FileValidator {
 
-    static {
-        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
-    }
-
     private static final ValidatorFactory VALIDATOR_FACTORY = Validation.buildDefaultValidatorFactory();
     private static final Validator VALIDATOR = VALIDATOR_FACTORY.getValidator();
 
-    public static void validateClass(CollectionManager collectionInWork) {
+    static {
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
+        java.util.logging.Logger.getLogger("org.logback").setLevel(Level.OFF);
+    }
+
+    private FileValidator() {
+    }
+
+    public static String validateClass(CollectionManager collectionInWork) {
         for (MusicBand m : collectionInWork.getMusicBands()) {
             Set<ConstraintViolation<Coordinates>> validatedCoordinates = VALIDATOR.validate(m.getCoordinates());
             Set<ConstraintViolation<Studio>> validatedStudio = new HashSet<>();
@@ -37,16 +40,18 @@ public final class FileValidator {
             }
             Set<ConstraintViolation<MusicBand>> validatedBand = VALIDATOR.validate(m);
             if (!validatedBand.isEmpty() || !validatedCoordinates.isEmpty() || !validatedStudio.isEmpty()) {
+                StringBuilder builder = new StringBuilder();
                 ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("Errors were found in the source file"));
-                validatedBand.stream().map(ConstraintViolation::getMessage).map(TextColoring::getRedText)
-                        .forEach(ServerConfig.getTextPrinter()::printlnText);
-                validatedCoordinates.stream().map(ConstraintViolation::getMessage).map(TextColoring::getRedText)
-                        .forEach(ServerConfig.getTextPrinter()::printlnText);
-                validatedStudio.stream().map(ConstraintViolation::getMessage).map(TextColoring::getRedText)
-                        .forEach(ServerConfig.getTextPrinter()::printlnText);
-                System.exit(1);
+                validatedBand.stream().map(ConstraintViolation::getMessage)
+                        .forEach(res -> builder.append(res).append("\n"));
+                validatedCoordinates.stream().map(ConstraintViolation::getMessage)
+                        .forEach(res -> builder.append(res).append("\n"));
+                validatedStudio.stream().map(ConstraintViolation::getMessage)
+                        .forEach(res -> builder.append(res).append("\n"));
+                if (!builder.isEmpty()) builder.delete(builder.length() - 1, builder.length());
+                return builder.toString();
             }
         }
-        ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Transfer data from the file to the collection, the application is successfully launched"));
+        return null;
     }
 }

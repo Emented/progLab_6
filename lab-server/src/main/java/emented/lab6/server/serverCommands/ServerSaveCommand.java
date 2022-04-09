@@ -19,7 +19,7 @@ public class ServerSaveCommand extends AbstractServerCommand {
     }
 
     @Override
-    public String executeCommand() {
+    public String executeServerCommand() {
         try {
             parser.writeToXMLofExistingInstance(collectionInWork);
         } catch (IOException e) {

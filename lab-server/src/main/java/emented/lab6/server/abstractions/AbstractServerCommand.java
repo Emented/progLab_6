@@ -1,8 +1,5 @@
 package emented.lab6.server.abstractions;
 
-import emented.lab6.common.util.Request;
-import emented.lab6.common.util.Response;
-
 public abstract class AbstractServerCommand {
 
     private final String name;
@@ -21,7 +18,7 @@ public abstract class AbstractServerCommand {
         return description;
     }
 
-    public abstract String executeCommand();
+    public abstract String executeServerCommand();
 
     @Override
     public String toString() {
