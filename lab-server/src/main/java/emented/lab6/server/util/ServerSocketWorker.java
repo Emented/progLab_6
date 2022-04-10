@@ -8,6 +8,7 @@ import emented.lab6.common.util.Serializer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.SelectionKey;
@@ -57,7 +58,7 @@ public class ServerSocketWorker {
             if (key.isReadable()) {
                 ByteBuffer packet = ByteBuffer.allocate(ARRAY_SIZE);
                 socketAddress = datagramChannel.receive(packet);
-                packet.flip();
+                ((Buffer) packet).flip();
                 byte[] bytes = new byte[packet.remaining()];
                 packet.get(bytes);
                 return DeSerializer.deSerializeRequest(bytes);

@@ -1,4 +1,4 @@
-package emented.lab6.server.threads;
+package emented.lab6.server;
 
 import emented.lab6.common.util.Request;
 import emented.lab6.common.util.Response;

@@ -2,8 +2,6 @@ package emented.lab6.server;
 
 import com.thoughtworks.xstream.converters.ConversionException;
 import emented.lab6.common.util.TextColoring;
-import emented.lab6.server.threads.ConsoleThread;
-import emented.lab6.server.threads.RequestThread;
 import emented.lab6.server.clientCommands.AddCommand;
 import emented.lab6.server.clientCommands.AddIfMaxCommand;
 import emented.lab6.server.clientCommands.ClearCommand;
@@ -73,7 +71,7 @@ public class ServerWorker {
             inputPort();
             ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Welcome to the server! To see the list of commands input HELP"));
             RequestThread requestThread = new RequestThread(serverSocketWorker);
-            ConsoleThread consoleThread = new ConsoleThread(scanner, serverCommandListener);
+            ConsoleThread consoleThread = new ConsoleThread(serverCommandListener);
             requestThread.start();
             consoleThread.start();
         } catch (IOException e) {

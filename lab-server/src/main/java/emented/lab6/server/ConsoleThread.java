@@ -1,4 +1,4 @@
-package emented.lab6.server.threads;
+package emented.lab6.server;
 
 import emented.lab6.server.ServerConfig;
 import emented.lab6.server.util.ServerCommandListener;
@@ -7,11 +7,9 @@ import java.util.Scanner;
 
 public class ConsoleThread extends Thread {
 
-    private final Scanner scanner;
     private final ServerCommandListener serverCommandListener;
 
-    public ConsoleThread(Scanner sc, ServerCommandListener serverCommandListener) {
-        this.scanner = sc;
+    public ConsoleThread(ServerCommandListener serverCommandListener) {
         this.serverCommandListener = serverCommandListener;
     }
 
