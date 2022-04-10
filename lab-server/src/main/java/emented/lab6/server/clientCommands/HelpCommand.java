@@ -1,6 +1,5 @@
 package emented.lab6.server.clientCommands;
 
-import emented.lab6.common.util.DefaultMassage;
 import emented.lab6.common.util.Request;
 import emented.lab6.common.util.Response;
 import emented.lab6.common.util.TextColoring;
@@ -24,6 +23,6 @@ public class HelpCommand extends AbstractClientCommand {
             sb.append(command.toString()).append("\n");
         }
         sb = new StringBuilder(sb.substring(0, sb.length() - 1));
-        return new Response(new DefaultMassage(TextColoring.getGreenText("Available commands:\n") + sb));
+        return new Response(TextColoring.getGreenText("Available commands:\n") + sb);
     }
 }

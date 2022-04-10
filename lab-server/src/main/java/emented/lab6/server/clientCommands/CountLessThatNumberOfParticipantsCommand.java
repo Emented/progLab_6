@@ -2,7 +2,7 @@ package emented.lab6.server.clientCommands;
 
 import emented.lab6.common.util.Request;
 import emented.lab6.common.util.Response;
-import emented.lab6.common.util.SuccessMessage;
+import emented.lab6.common.util.TextColoring;
 import emented.lab6.server.abstractions.AbstractClientCommand;
 import emented.lab6.server.util.CollectionManager;
 
@@ -20,7 +20,7 @@ public class CountLessThatNumberOfParticipantsCommand extends AbstractClientComm
 
     @Override
     public Response executeClientCommand(Request request) {
-        return new Response(new SuccessMessage("Groups with fewer participants than " + request.getNumericArgument()
+        return new Response(TextColoring.getGreenText("Groups with fewer participants than " + request.getNumericArgument()
                 + ": " + collectionInWork.countLessThanNumberOfParticipants(request.getNumericArgument())));
     }
 }

@@ -1,7 +1,6 @@
 package emented.lab6.server.clientCommands;
 
 
-import emented.lab6.common.util.DefaultMassage;
 import emented.lab6.common.util.Request;
 import emented.lab6.common.util.Response;
 import emented.lab6.server.abstractions.AbstractClientCommand;
@@ -28,6 +27,6 @@ public class HistoryCommand extends AbstractClientCommand {
             sb.append("History is empty");
         }
         sb = new StringBuilder(sb.substring(0, sb.length() - 1));
-        return new Response(new DefaultMassage(sb.toString()));
+        return new Response(sb.toString());
     }
 }

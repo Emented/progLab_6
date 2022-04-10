@@ -3,10 +3,13 @@ package emented.lab6.common.util;
 import emented.lab6.common.entities.MusicBand;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 
 public class Request implements Serializable {
 
     private final String commandName;
+    private String clientInfo;
+    private LocalTime currentTime;
     private Long numericArgument;
     private MusicBand bandArgument;
 
@@ -40,6 +43,22 @@ public class Request implements Serializable {
 
     public MusicBand getBandArgument() {
         return bandArgument;
+    }
+
+    public String getClientInfo() {
+        return clientInfo;
+    }
+
+    public LocalTime getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setClientInfo(String clientInfo) {
+        this.clientInfo = clientInfo;
+    }
+
+    public void setCurrentTime(LocalTime currentTime) {
+        this.currentTime = currentTime;
     }
 
     @Override

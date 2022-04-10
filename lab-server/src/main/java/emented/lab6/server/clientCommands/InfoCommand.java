@@ -1,6 +1,5 @@
 package emented.lab6.server.clientCommands;
 
-import emented.lab6.common.util.DefaultMassage;
 import emented.lab6.common.util.Request;
 import emented.lab6.common.util.Response;
 import emented.lab6.common.util.TextColoring;
@@ -18,6 +17,6 @@ public class InfoCommand extends AbstractClientCommand {
 
     @Override
     public Response executeClientCommand(Request request) {
-        return new Response(new DefaultMassage(TextColoring.getGreenText("Info about collection:\n") + collectionInWork.returnInfo()));
+        return new Response(TextColoring.getGreenText("Info about collection:\n") + collectionInWork.returnInfo());
     }
 }

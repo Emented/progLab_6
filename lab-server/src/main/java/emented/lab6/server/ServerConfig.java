@@ -16,9 +16,6 @@ public final class ServerConfig {
     private static final HashMap<String, AbstractClientCommand> CLIENT_AVAILABLE_COMMANDS = new HashMap<>();
     private static final HashMap<String, AbstractServerCommand> SERVER_AVAILABLE_COMMANDS = new HashMap<>();
     private static final CommandHistory CLIENT_COMMAND_HISTORY = new CommandHistory();
-    private static final XMLParser PARSER = new XMLParser();
-    private static CollectionManager collectionOfMusicBands = new CollectionManager();
-    private static CommandManager commandManager;
     private static boolean isRunning = true;
 
     private ServerConfig() {
@@ -30,22 +27,6 @@ public final class ServerConfig {
 
     public static void toggleRun() {
         isRunning = !isRunning;
-    }
-
-    public static CollectionManager getCollectionOfMusicBands() {
-        return collectionOfMusicBands;
-    }
-
-public static void setCollectionOfMusicBands(CollectionManager manager) {
-        collectionOfMusicBands = manager;
-    }
-
-    public static CommandManager getCommandManager() {
-        return commandManager;
-    }
-
-    public static void setCommandManager(CommandManager manager) {
-        commandManager = manager;
     }
 
     public static TextPrinter getTextPrinter() {
@@ -62,9 +43,5 @@ public static void setCollectionOfMusicBands(CollectionManager manager) {
 
     public static CommandHistory getClientCommandHistory() {
         return CLIENT_COMMAND_HISTORY;
-    }
-
-    public static XMLParser getParser() {
-        return PARSER;
     }
 }

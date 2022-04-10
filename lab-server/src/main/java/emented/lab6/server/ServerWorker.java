@@ -17,9 +17,12 @@ import emented.lab6.server.clientCommands.RemoveByIdCommand;
 import emented.lab6.server.clientCommands.RemoveGreaterCommand;
 import emented.lab6.server.clientCommands.ShowCommand;
 import emented.lab6.server.clientCommands.UpdateCommand;
+import emented.lab6.server.parser.XMLParser;
 import emented.lab6.server.serverCommands.ServerExitCommand;
 import emented.lab6.server.serverCommands.ServerHelpCommand;
+import emented.lab6.server.serverCommands.ServerHistoryCommand;
 import emented.lab6.server.serverCommands.ServerSaveCommand;
+import emented.lab6.server.util.CollectionManager;
 import emented.lab6.server.util.CommandManager;
 import emented.lab6.server.util.ServerCommandListener;
 import emented.lab6.server.util.ServerSocketWorker;
@@ -35,43 +38,43 @@ public class ServerWorker {
     private final int maxPort = 65535;
     private ServerSocketWorker serverSocketWorker;
     private String fileName;
-    private boolean statusOfRunning = true;
     private ServerCommandListener serverCommandListener = new ServerCommandListener(scanner);
+    private CollectionManager collectionManager;
+    private CommandManager commandManager;
+    private final XMLParser parser = new XMLParser();
+
 
     public ServerWorker(String fileName) {
         this.fileName = fileName;
     }
 
-    public void toggleStatus() {
-        statusOfRunning = !statusOfRunning;
-    }
-
     public void startServerWorker() {
         try {
-            ServerConfig.setCollectionOfMusicBands(ServerConfig.getParser().readFromXML(this.fileName));
-            ServerConfig.setCommandManager(new CommandManager(
+            collectionManager = parser.readFromXML(this.fileName);
+            commandManager = new CommandManager(
                     new HelpCommand(ServerConfig.getClientAvailableCommands()),
-                    new InfoCommand(ServerConfig.getCollectionOfMusicBands()),
-                    new ShowCommand(ServerConfig.getCollectionOfMusicBands()),
-                    new AddCommand(ServerConfig.getCollectionOfMusicBands()),
-                    new UpdateCommand(ServerConfig.getCollectionOfMusicBands()),
-                    new RemoveByIdCommand(ServerConfig.getCollectionOfMusicBands()),
-                    new ClearCommand(ServerConfig.getCollectionOfMusicBands()),
+                    new InfoCommand(collectionManager),
+                    new ShowCommand(collectionManager),
+                    new AddCommand(collectionManager),
+                    new UpdateCommand(collectionManager),
+                    new RemoveByIdCommand(collectionManager),
+                    new ClearCommand(collectionManager),
                     new ExitCommand(),
-                    new AddIfMaxCommand(ServerConfig.getCollectionOfMusicBands()),
-                    new RemoveGreaterCommand(ServerConfig.getCollectionOfMusicBands()),
+                    new AddIfMaxCommand(collectionManager),
+                    new RemoveGreaterCommand(collectionManager),
                     new HistoryCommand(ServerConfig.getClientCommandHistory().getHistory()),
-                    new RemoveAnyByNumberOfParticipantsCommand(ServerConfig.getCollectionOfMusicBands()),
-                    new MinByStudioCommand(ServerConfig.getCollectionOfMusicBands()),
-                    new CountLessThatNumberOfParticipantsCommand(ServerConfig.getCollectionOfMusicBands()),
+                    new RemoveAnyByNumberOfParticipantsCommand(collectionManager),
+                    new MinByStudioCommand(collectionManager),
+                    new CountLessThatNumberOfParticipantsCommand(collectionManager),
                     new ExecuteScriptCommand(),
                     new ServerHelpCommand(ServerConfig.getServerAvailableCommands()),
-                    new ServerExitCommand(scanner),
-                    new ServerSaveCommand(ServerConfig.getCollectionOfMusicBands(), ServerConfig.getParser())));
+                    new ServerExitCommand(scanner, parser, collectionManager),
+                    new ServerSaveCommand(collectionManager, parser),
+                    new ServerHistoryCommand(ServerConfig.getClientCommandHistory().getHistory()));
             inputPort();
             ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Welcome to the server! To see the list of commands input HELP"));
-            RequestThread requestThread = new RequestThread(serverSocketWorker);
-            ConsoleThread consoleThread = new ConsoleThread(serverCommandListener);
+            RequestThread requestThread = new RequestThread(serverSocketWorker, commandManager);
+            ConsoleThread consoleThread = new ConsoleThread(serverCommandListener, commandManager);
             requestThread.start();
             consoleThread.start();
         } catch (IOException e) {

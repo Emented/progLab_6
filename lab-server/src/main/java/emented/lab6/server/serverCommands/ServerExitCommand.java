@@ -3,6 +3,8 @@ package emented.lab6.server.serverCommands;
 import emented.lab6.common.util.TextColoring;
 import emented.lab6.server.ServerConfig;
 import emented.lab6.server.abstractions.AbstractServerCommand;
+import emented.lab6.server.parser.XMLParser;
+import emented.lab6.server.util.CollectionManager;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -12,10 +14,14 @@ import java.util.Scanner;
 public class ServerExitCommand extends AbstractServerCommand {
 
     private final Scanner scanner;
+    private final XMLParser parser;
+    private final CollectionManager collectionManager;
 
-    public ServerExitCommand(Scanner scanner) {
+    public ServerExitCommand(Scanner scanner, XMLParser parser, CollectionManager collectionManager) {
         super("exit", "shut down the server (you'll be asked to store all the changes)");
         this.scanner = scanner;
+        this.parser = parser;
+        this.collectionManager = collectionManager;
     }
 
     @Override
@@ -32,7 +38,7 @@ public class ServerExitCommand extends AbstractServerCommand {
             if ("n".equals(s)) {
                 ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("You lost all of your data )="));
             } else if ("y".equals(s)) {
-                ServerConfig.getParser().writeToXMLofExistingInstance(ServerConfig.getCollectionOfMusicBands());
+                parser.writeToXMLofExistingInstance(collectionManager);
                 ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Collection was successfully saved"));
             } else {
                 ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("You entered not valid symbol, try again"));

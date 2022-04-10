@@ -1,6 +1,5 @@
 package emented.lab6.common.util;
 
-import emented.lab6.common.abstractions.AbstractResponseMessage;
 import emented.lab6.common.entities.MusicBand;
 
 import java.io.Serializable;
@@ -12,20 +11,20 @@ import java.util.stream.Collectors;
 
 public class Response implements Serializable {
 
-    private AbstractResponseMessage messageToResponse;
+    private String messageToResponse;
     private MusicBand bandToResponse;
     private Set<MusicBand> collectionToResponse;
 
-    public Response(AbstractResponseMessage messageToResponse) {
+    public Response(String messageToResponse) {
         this.messageToResponse = messageToResponse;
     }
 
-    public Response(AbstractResponseMessage messageToResponse, MusicBand bandToResponse) {
+    public Response(String messageToResponse, MusicBand bandToResponse) {
         this.messageToResponse = messageToResponse;
         this.bandToResponse = bandToResponse;
     }
 
-    public Response(AbstractResponseMessage messageToResponse, Set<MusicBand> collectionToResponse) {
+    public Response(String messageToResponse, Set<MusicBand> collectionToResponse) {
         this.messageToResponse = messageToResponse;
         this.collectionToResponse = collectionToResponse;
     }
@@ -38,7 +37,7 @@ public class Response implements Serializable {
         this.collectionToResponse = collectionToResponse;
     }
 
-    public AbstractResponseMessage getMessageToResponse() {
+    public String getMessageToResponse() {
         return messageToResponse;
     }
 
@@ -67,7 +66,7 @@ public class Response implements Serializable {
             }
             collection = new StringBuilder(collection.substring(0, collection.length() - 1));
         }
-        return (messageToResponse == null ? "" : messageToResponse.getMessage())
+        return (messageToResponse == null ? "" : messageToResponse)
                 + (bandToResponse == null ? "" : "\n" + bandToResponse)
                 + ((collectionToResponse == null) ? "" : "\n"
                 + collection);

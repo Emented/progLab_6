@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.NoSuchElementException;
@@ -113,6 +114,8 @@ public class ClientWorker {
     private boolean sendRequest(CommandToSend command) {
         Request request = requestCreator.createRequestOfCommand(command);
         if (request != null) {
+            request.setCurrentTime(LocalTime.now());
+            request.setClientInfo(clientSocketWorker.getAddress() + " " + clientSocketWorker.getPort());
             try {
                 clientSocketWorker.sendRequest(request);
                 return true;

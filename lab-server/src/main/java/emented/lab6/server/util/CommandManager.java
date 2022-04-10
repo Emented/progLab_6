@@ -7,6 +7,8 @@ import emented.lab6.server.ServerConfig;
 import emented.lab6.server.abstractions.AbstractClientCommand;
 import emented.lab6.server.abstractions.AbstractServerCommand;
 
+import java.time.format.DateTimeFormatter;
+
 public class CommandManager {
 
     public CommandManager(AbstractClientCommand helpClientCommand,
@@ -26,7 +28,8 @@ public class CommandManager {
                           AbstractClientCommand executeScriptCommand,
                           AbstractServerCommand helpServerCommand,
                           AbstractServerCommand exitServerCommand,
-                          AbstractServerCommand saveServerCommand) {
+                          AbstractServerCommand saveServerCommand,
+                          AbstractServerCommand historyServerCommand) {
 
         ServerConfig.getClientAvailableCommands().put(helpClientCommand.getName(), helpClientCommand);
         ServerConfig.getClientAvailableCommands().put(infoCommand.getName(), infoCommand);
@@ -47,10 +50,12 @@ public class CommandManager {
         ServerConfig.getServerAvailableCommands().put(helpServerCommand.getName(), helpServerCommand);
         ServerConfig.getServerAvailableCommands().put(exitServerCommand.getName(), exitServerCommand);
         ServerConfig.getServerAvailableCommands().put(saveServerCommand.getName(), saveServerCommand);
+        ServerConfig.getServerAvailableCommands().put(historyServerCommand.getName(), historyServerCommand);
     }
 
     public Response executeClientCommand(Request request) {
-        ServerConfig.getClientCommandHistory().pushCommand(request.getCommandName());
+        ServerConfig.getClientCommandHistory().pushCommand(TextColoring.getBlueText(request.getCurrentTime().format(DateTimeFormatter.ofPattern("H:m:s")))
+                + " " + TextColoring.getGreenText(request.getClientInfo()) + ": " + request.getCommandName());
         return ServerConfig.getClientAvailableCommands().get(request.getCommandName()).executeClientCommand(request);
     }
 

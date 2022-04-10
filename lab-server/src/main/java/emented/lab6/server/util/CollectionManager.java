@@ -190,10 +190,14 @@ public class CollectionManager {
      *
      * @param numberOfParticipants Число участников для сравнения
      */
-    public void removeAnyByNumberOfParticipants(Long numberOfParticipants) throws GroupNotFoundException, CollectionIsEmptyException {
+    public MusicBand removeAnyByNumberOfParticipants(Long numberOfParticipants) throws GroupNotFoundException, CollectionIsEmptyException {
         if (!musicBands.isEmpty()) {
-            if (!musicBands.removeIf(mb -> Objects.equals(mb.getNumberOfParticipants(), numberOfParticipants))) {
+            List<MusicBand> matchBands = musicBands.stream().filter(mb -> Objects.equals(mb.getNumberOfParticipants(), numberOfParticipants)).collect(Collectors.toList());
+            if (matchBands.isEmpty()) {
                 throw new GroupNotFoundException("There is no group with this number of participants");
+            } else {
+                musicBands.remove(matchBands.get(0));
+                return matchBands.get(0);
             }
         } else {
             throw new CollectionIsEmptyException("Collection is empty");
