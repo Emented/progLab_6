@@ -16,7 +16,6 @@ import java.nio.ByteBuffer;
 public class ClientSocketWorker {
     private final int defaultPort = 228;
     private final int timeToResponse = 4000;
-    private final int arraySize = 4096;
     private final DatagramSocket datagramSocket;
     private int port;
     private String address = "localhost";
@@ -53,9 +52,10 @@ public class ClientSocketWorker {
     }
 
     public Response receiveResponse() throws ClassNotFoundException, IOException {
-        byte[] byteBuf = new byte[arraySize];
-        DatagramPacket dpFromServer = new DatagramPacket(byteBuf, byteBuf.length);
         datagramSocket.setSoTimeout(timeToResponse);
+        int receivedSize = datagramSocket.getReceiveBufferSize();
+        byte[] byteBuf = new byte[receivedSize];
+        DatagramPacket dpFromServer = new DatagramPacket(byteBuf, byteBuf.length);
         datagramSocket.receive(dpFromServer);
         byte[] bytesFromServer = dpFromServer.getData();
         return DeSerializer.deSerializeResponse(bytesFromServer);

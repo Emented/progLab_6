@@ -7,7 +7,8 @@ import java.nio.ByteBuffer;
 
 public final class Serializer {
 
-    private static final int ARRAY_SIZE = 4096;
+    private static final int ARRAY_SIZE = 2048;
+    private static final int HUMAN_SIZE = 1024;
 
     private Serializer() {
     }
@@ -24,7 +25,11 @@ public final class Serializer {
     }
 
     public static ByteBuffer serializeResponse(Response response) throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(ARRAY_SIZE);
+        int bufSize = ARRAY_SIZE;
+        if (response.getCollectionToResponse() != null) {
+            bufSize = response.getCollectionToResponse().size() * HUMAN_SIZE + ARRAY_SIZE;
+        }
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(bufSize);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
         objectOutputStream.writeObject(response);
         objectOutputStream.flush();

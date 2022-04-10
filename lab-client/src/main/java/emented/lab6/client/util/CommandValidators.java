@@ -12,6 +12,8 @@ import java.util.function.Predicate;
 
 public final class CommandValidators {
 
+    private static final int MAX_STRING_LENGTH = 75;
+
     private CommandValidators() {
     }
 
@@ -84,7 +86,12 @@ public final class CommandValidators {
                     ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("This field cannot be null, repeat the input"));
                     continue;
                 }
-                value = input;
+                if (input.length() < MAX_STRING_LENGTH) {
+                    value = input;
+                } else {
+                    ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("String is too long, repeat input"));
+                    continue;
+                }
             } catch (NoSuchElementException e) {
                 ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("Invalid character entered"));
                 System.exit(1);

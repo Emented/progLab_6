@@ -51,7 +51,7 @@ public class MusicBandGenerator {
      * Метод, устанавливающий имя для новой музыкальной группы
      */
     private void getName() {
-        String name = CommandValidators.validateStringInput("Enter the name of the music group",
+        String name = CommandValidators.validateStringInput("Enter the name of the music group (max length 75 symbols)",
                 false,
                 sc);
         generatedMusicBand.setName(name);
@@ -103,7 +103,7 @@ public class MusicBandGenerator {
      * Метод, считывающий описание с коммандной строки и устанавливающий его для новой муыкальной группы
      */
     private void getDescription() {
-        String description = CommandValidators.validateStringInput("Enter a description of the group (press ENTER to skip)",
+        String description = CommandValidators.validateStringInput("Enter a description of the group (press ENTER to skip, max length 75 symbols)",
                 true,
                 sc);
         generatedMusicBand.setDescription(description);
@@ -114,7 +114,7 @@ public class MusicBandGenerator {
      */
     private void getMusicGenre() {
         MusicGenre genre = CommandValidators.validateInput(arg -> true,
-                "Enter the genre of music from the suggested ones below (to skip, press ENTER)\n" + MusicGenre.show(),
+                "Enter the genre of music from the suggested ones below (press ENTER to skip)\n" + MusicGenre.show(),
                 "There is no such musical genre, repeat the input",
                 "Input error",
                 string -> MusicGenre.valueOf(string.toUpperCase(Locale.ROOT)),
@@ -128,7 +128,7 @@ public class MusicBandGenerator {
      */
     private void getStudio() {
         Studio studio = CommandValidators.validateInput(arg -> true,
-                "Enter the studio address (press ENTER to skip)",
+                "Enter the studio address (press ENTER to skip, max length 75 symbols)",
                 "Input error",
                 "Input error",
                 Studio::new,

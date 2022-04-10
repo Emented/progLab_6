@@ -133,6 +133,7 @@ public class ClientWorker {
             ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("The waiting time for a response from the server has been exceeded, try again later"));
         } catch (IOException e) {
             ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("An error occurred while receiving a response from the server"));
+            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("The response came damaged"));
         }
