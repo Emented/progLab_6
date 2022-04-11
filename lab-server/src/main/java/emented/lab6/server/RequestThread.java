@@ -34,5 +34,10 @@ public class RequestThread extends Thread {
                 ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
             }
         }
+        try {
+            serverSocketWorker.stopServer();
+        } catch (IOException e) {
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("An error occurred during stopping the server"));
+        }
     }
 }

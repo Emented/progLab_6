@@ -68,7 +68,7 @@ public class ServerWorker {
                     new CountLessThatNumberOfParticipantsCommand(collectionManager),
                     new ExecuteScriptCommand(),
                     new ServerHelpCommand(ServerConfig.getServerAvailableCommands()),
-                    new ServerExitCommand(scanner, parser, collectionManager, serverSocketWorker),
+                    new ServerExitCommand(scanner, parser, collectionManager),
                     new ServerSaveCommand(collectionManager, parser),
                     new ServerHistoryCommand(ServerConfig.getClientCommandHistory().getHistory()));
             inputPort();

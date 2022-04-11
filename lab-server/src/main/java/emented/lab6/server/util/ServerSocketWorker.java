@@ -51,7 +51,9 @@ public class ServerSocketWorker {
     }
 
     public Request listenForRequest() throws IOException, ClassNotFoundException {
-        selector.select();
+        if (selector.select(selectorDelay) == 0) {
+            return null;
+        }
         Set<SelectionKey> readyKeys = selector.selectedKeys();
         Iterator<SelectionKey> iterator = readyKeys.iterator();
         while (iterator.hasNext()) {

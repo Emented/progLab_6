@@ -18,26 +18,19 @@ public class ServerExitCommand extends AbstractServerCommand {
     private final Scanner scanner;
     private final XMLParser parser;
     private final CollectionManager collectionManager;
-    private final ServerSocketWorker serverSocketWorker;
 
-    public ServerExitCommand(Scanner scanner, XMLParser parser, CollectionManager collectionManager, ServerSocketWorker serverSocketWorker) {
+    public ServerExitCommand(Scanner scanner, XMLParser parser, CollectionManager collectionManager) {
         super("exit", "shut down the server (you'll be asked to store all the changes)");
         this.scanner = scanner;
         this.parser = parser;
         this.collectionManager = collectionManager;
-        this.serverSocketWorker = serverSocketWorker;
     }
 
     @Override
     public String executeServerCommand() {
-        try {
-            chooseSaving();
-            ServerConfig.toggleRun();
-            serverSocketWorker.stopServer();
-            return TextColoring.getGreenText("Server shutdown");
-        } catch (IOException e) {
-            return TextColoring.getRedText("An error occurred during stopping the server");
-        }
+        chooseSaving();
+        ServerConfig.toggleRun();
+        return TextColoring.getGreenText("Server shutdown");
     }
 
     private void chooseSaving() {
