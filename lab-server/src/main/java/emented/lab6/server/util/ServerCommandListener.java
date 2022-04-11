@@ -18,7 +18,7 @@ public class ServerCommandListener {
     public String readCommand() {
         try {
             ServerConfig.getConsoleTextPrinter().printText(TextColoring.getBlueText("Enter a command: "));
-            return sc.nextLine().strip().toLowerCase(Locale.ROOT);
+            return sc.nextLine().trim().toLowerCase(Locale.ROOT);
         } catch (NoSuchElementException e) {
             ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("An invalid character has been entered, forced shutdown!"));
             System.exit(1);

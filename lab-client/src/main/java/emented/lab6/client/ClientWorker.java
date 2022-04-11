@@ -58,7 +58,7 @@ public class ClientWorker {
     private void inputAddress() {
         ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Do you want to use a default server address? [y/n]"));
         try {
-            String s = scanner.nextLine().strip().toLowerCase(Locale.ROOT);
+            String s = scanner.nextLine().trim().toLowerCase(Locale.ROOT);
             if ("y".equals(s)) {
                 clientSocketWorker = new ClientSocketWorker();
             } else if ("n".equals(s)) {
@@ -85,7 +85,7 @@ public class ClientWorker {
     private void inputPort() {
         ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Do you want to use a default port? [y/n]"));
         try {
-            String s = scanner.nextLine().strip().toLowerCase(Locale.ROOT);
+            String s = scanner.nextLine().trim().toLowerCase(Locale.ROOT);
             if ("n".equals(s)) {
                 ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Please enter the remote host port (1-65535)"));
                 String port = scanner.nextLine();

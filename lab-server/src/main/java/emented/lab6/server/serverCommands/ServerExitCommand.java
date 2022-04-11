@@ -36,7 +36,7 @@ public class ServerExitCommand extends AbstractServerCommand {
     private void chooseSaving() {
         ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Do you want to save changes? [y/n]"));
         try {
-            String s = scanner.nextLine().strip().toLowerCase(Locale.ROOT);
+            String s = scanner.nextLine().trim().toLowerCase(Locale.ROOT);
             if ("n".equals(s)) {
                 ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("You lost all of your data )="));
             } else if ("y".equals(s)) {

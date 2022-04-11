@@ -88,7 +88,7 @@ public class ServerWorker {
     private void inputPort() throws IOException {
         ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Do you want to use a default port? [y/n]"));
         try {
-            String s = scanner.nextLine().strip().toLowerCase(Locale.ROOT);
+            String s = scanner.nextLine().trim().toLowerCase(Locale.ROOT);
             if ("n".equals(s)) {
                 ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Please enter the remote host port (1-65535)"));
                 String port = scanner.nextLine();
