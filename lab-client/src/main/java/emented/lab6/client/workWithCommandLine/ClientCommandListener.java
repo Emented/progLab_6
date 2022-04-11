@@ -21,13 +21,13 @@ public class ClientCommandListener {
 
     public CommandToSend readCommand() {
         try {
-            ClientConfig.getTextPrinter().printText(TextColoring.getBlueText("Enter a command: "));
-            String[] splitedInput = sc.nextLine().split(" ");
+            ClientConfig.getConsoleTextPrinter().printText(TextColoring.getBlueText("Enter a command: "));
+            String[] splitedInput = sc.nextLine().strip().split(" ");
             String commandName = splitedInput[0].toLowerCase(Locale.ROOT);
             String[] commandsArgs = Arrays.copyOfRange(splitedInput, 1, splitedInput.length);
             return new CommandToSend(commandName, commandsArgs);
         } catch (NoSuchElementException e) {
-            ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("An invalid character has been entered, forced shutdown!"));
+            ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("An invalid character has been entered, forced shutdown!"));
             System.exit(1);
             return null;
         }

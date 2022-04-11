@@ -41,7 +41,7 @@ public final class FileValidator {
             Set<ConstraintViolation<MusicBand>> validatedBand = VALIDATOR.validate(m);
             if (!validatedBand.isEmpty() || !validatedCoordinates.isEmpty() || !validatedStudio.isEmpty()) {
                 StringBuilder builder = new StringBuilder();
-                ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("Errors were found in the source file"));
+                ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("Errors were found in the source file"));
                 validatedBand.stream().map(ConstraintViolation::getMessage)
                         .forEach(res -> builder.append(res).append("\n"));
                 validatedCoordinates.stream().map(ConstraintViolation::getMessage)

@@ -3,7 +3,6 @@ package emented.lab6.server;
 import emented.lab6.common.util.Request;
 import emented.lab6.common.util.Response;
 import emented.lab6.common.util.TextColoring;
-import emented.lab6.server.ServerConfig;
 import emented.lab6.server.util.CommandManager;
 import emented.lab6.server.util.ServerSocketWorker;
 
@@ -30,9 +29,9 @@ public class RequestThread extends Thread {
                     serverSocketWorker.sendResponse(responseToSend);
                 }
             } catch (ClassNotFoundException e) {
-                ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("An error occurred while deserializing the request, try again"));
+                ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("An error occurred while deserializing the request, try again"));
             } catch (IOException e) {
-                ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
+                ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
             }
         }
     }

@@ -1,10 +1,12 @@
 package emented.lab6.server.serverCommands;
 
 import emented.lab6.common.util.TextColoring;
+import emented.lab6.server.Server;
 import emented.lab6.server.ServerConfig;
 import emented.lab6.server.abstractions.AbstractServerCommand;
 import emented.lab6.server.parser.XMLParser;
 import emented.lab6.server.util.CollectionManager;
+import emented.lab6.server.util.ServerSocketWorker;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -16,39 +18,46 @@ public class ServerExitCommand extends AbstractServerCommand {
     private final Scanner scanner;
     private final XMLParser parser;
     private final CollectionManager collectionManager;
+    private final ServerSocketWorker serverSocketWorker;
 
-    public ServerExitCommand(Scanner scanner, XMLParser parser, CollectionManager collectionManager) {
+    public ServerExitCommand(Scanner scanner, XMLParser parser, CollectionManager collectionManager, ServerSocketWorker serverSocketWorker) {
         super("exit", "shut down the server (you'll be asked to store all the changes)");
         this.scanner = scanner;
         this.parser = parser;
         this.collectionManager = collectionManager;
+        this.serverSocketWorker = serverSocketWorker;
     }
 
     @Override
     public String executeServerCommand() {
-        chooseSaving();
-        ServerConfig.toggleRun();
-        return TextColoring.getGreenText("Server shutdown");
+        try {
+            chooseSaving();
+            ServerConfig.toggleRun();
+            serverSocketWorker.stopServer();
+            return TextColoring.getGreenText("Server shutdown");
+        } catch (IOException e) {
+            return TextColoring.getRedText("An error occurred during stopping the server");
+        }
     }
 
     private void chooseSaving() {
-        ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Do you want to save changes? [y/n]"));
+        ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Do you want to save changes? [y/n]"));
         try {
-            String s = scanner.nextLine().toLowerCase(Locale.ROOT);
+            String s = scanner.nextLine().strip().toLowerCase(Locale.ROOT);
             if ("n".equals(s)) {
-                ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("You lost all of your data )="));
+                ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("You lost all of your data )="));
             } else if ("y".equals(s)) {
                 parser.writeToXMLofExistingInstance(collectionManager);
-                ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Collection was successfully saved"));
+                ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Collection was successfully saved"));
             } else {
-                ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("You entered not valid symbol, try again"));
+                ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("You entered not valid symbol, try again"));
                 chooseSaving();
             }
         } catch (NoSuchElementException e) {
-            ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("An invalid character has been entered, forced shutdown!"));
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("An invalid character has been entered, forced shutdown!"));
             System.exit(1);
         } catch (IOException e) {
-            ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
         }
     }
 }

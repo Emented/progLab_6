@@ -13,7 +13,8 @@ import java.time.LocalDate;
 @XStreamAlias("musicband")
 public class MusicBand implements Serializable, Comparable<MusicBand> {
 
-    private final int maxStringLength = 75;
+    private static final int maxNameLength = 100;
+    private static final int maxDescriptionLength = 300;
 
     @NotNull
     @PastOrPresent(message = "The collection cannot have a creation date in the future time")
@@ -21,13 +22,13 @@ public class MusicBand implements Serializable, Comparable<MusicBand> {
     @NotNull
     @Positive(message = "The id must be greater then 0")
     private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
-    @Size(min = 1, max = maxStringLength, message = "Name is too long")
+    @Size(min = 1, max = maxNameLength, message = "Name is too long")
     private String name; //Поле не может быть null, Строка не может быть пустой
     @NotNull
     private Coordinates coordinates; //Поле не может быть null
     @Positive(message = "The number of participants must be greater than 0")
     private long numberOfParticipants; //Значение поля должно быть больше 0
-    @Size(max = maxStringLength, message = "Description is too long")
+    @Size(max = maxDescriptionLength, message = "Description is too long")
     private String description; //Поле может быть null
     private MusicGenre genre; //Поле может быть null
     private Studio studio; //Поле может быть null

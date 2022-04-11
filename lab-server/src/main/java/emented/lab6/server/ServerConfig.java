@@ -1,18 +1,16 @@
 package emented.lab6.server;
 
+import emented.lab6.common.abstractions.AbstractTextPrinter;
 import emented.lab6.common.util.CommandHistory;
-import emented.lab6.common.util.TextPrinter;
+import emented.lab6.common.util.ConsoleTextPrinter;
 import emented.lab6.server.abstractions.AbstractClientCommand;
 import emented.lab6.server.abstractions.AbstractServerCommand;
-import emented.lab6.server.parser.XMLParser;
-import emented.lab6.server.util.CollectionManager;
-import emented.lab6.server.util.CommandManager;
 
 import java.util.HashMap;
 
 public final class ServerConfig {
 
-    private static final TextPrinter TEXT_PRINTER = new TextPrinter(System.out);
+    private static final AbstractTextPrinter CONSOLE_TEXT_PRINTER = new ConsoleTextPrinter();
     private static final HashMap<String, AbstractClientCommand> CLIENT_AVAILABLE_COMMANDS = new HashMap<>();
     private static final HashMap<String, AbstractServerCommand> SERVER_AVAILABLE_COMMANDS = new HashMap<>();
     private static final CommandHistory CLIENT_COMMAND_HISTORY = new CommandHistory();
@@ -29,8 +27,8 @@ public final class ServerConfig {
         isRunning = !isRunning;
     }
 
-    public static TextPrinter getTextPrinter() {
-        return TEXT_PRINTER;
+    public static AbstractTextPrinter getConsoleTextPrinter() {
+        return CONSOLE_TEXT_PRINTER;
     }
 
     public static HashMap<String, AbstractClientCommand> getClientAvailableCommands() {

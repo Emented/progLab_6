@@ -14,6 +14,11 @@ import java.util.Scanner;
  */
 public class MusicBandGenerator {
 
+    private final int maxNameLength = 100;
+    private final int maxDescriptionLength = 300;
+    private final int maxAddressLength = 100;
+
+
     /**
      * Новая музыкальная группа
      */
@@ -51,9 +56,12 @@ public class MusicBandGenerator {
      * Метод, устанавливающий имя для новой музыкальной группы
      */
     private void getName() {
-        String name = CommandValidators.validateStringInput("Enter the name of the music group (max length 75 symbols)",
+        String name = CommandValidators.validateStringInput("Enter the name of the music group (max length + "
+                        + maxNameLength
+                        + " symbols)",
                 false,
-                sc);
+                sc,
+                maxNameLength);
         generatedMusicBand.setName(name);
     }
 
@@ -75,7 +83,7 @@ public class MusicBandGenerator {
      * Метод, считывающий координату X с коммандной строки и устанавливающий ее для новой муыкальной группы
      */
     private void getXCoordinate() {
-        double x = CommandValidators.validateInput(arg -> ((double) arg) < Coordinates.MAX_X,
+        double x = CommandValidators.validateInput(arg -> ((double) arg) <= Coordinates.MAX_X,
                 "Enter the X coordinate of the group (its value should be no more than " + Coordinates.MAX_X + ")",
                 "Error processing the number, repeat the input",
                 "The X coordinate should be no more than " + Coordinates.MAX_X + ", repeat the input",
@@ -89,7 +97,7 @@ public class MusicBandGenerator {
      * Метод, считывающий координату Y с коммандной строки и устанавливающий ее для новой муыкальной группы
      */
     private void getYCoordinate() {
-        Float y = CommandValidators.validateInput(arg -> ((Float) arg) < Coordinates.MAX_Y,
+        Float y = CommandValidators.validateInput(arg -> ((Float) arg) <= Coordinates.MAX_Y,
                 "Enter the Y coordinate of the group (its value should be no more than " + Coordinates.MAX_Y + ")",
                 "Error processing the number, repeat the input",
                 "The Y coordinate should be no more than " + Coordinates.MAX_Y + ", repeat the input",
@@ -103,9 +111,12 @@ public class MusicBandGenerator {
      * Метод, считывающий описание с коммандной строки и устанавливающий его для новой муыкальной группы
      */
     private void getDescription() {
-        String description = CommandValidators.validateStringInput("Enter a description of the group (press ENTER to skip, max length 75 symbols)",
+        String description = CommandValidators.validateStringInput("Enter a description of the group (press ENTER to skip, max length "
+                        + maxDescriptionLength
+                        + " symbols)",
                 true,
-                sc);
+                sc,
+                maxDescriptionLength);
         generatedMusicBand.setDescription(description);
     }
 
@@ -127,14 +138,17 @@ public class MusicBandGenerator {
      * Метод, считывающий студию с коммандной строки и устанавливающий ее для новой муыкальной группы
      */
     private void getStudio() {
-        Studio studio = CommandValidators.validateInput(arg -> true,
-                "Enter the studio address (press ENTER to skip, max length 75 symbols)",
-                "Input error",
-                "Input error",
-                Studio::new,
+        String address = CommandValidators.validateStringInput("Enter studio address of the group (press ENTER to skip, max length "
+                        + maxAddressLength
+                        + " symbols)",
                 true,
-                sc);
-        generatedMusicBand.setStudio(studio);
+                sc,
+                maxDescriptionLength);
+        if (address != null) {
+            generatedMusicBand.setStudio(new Studio(address));
+        } else {
+            generatedMusicBand.setStudio(null);
+        }
     }
 
     /**

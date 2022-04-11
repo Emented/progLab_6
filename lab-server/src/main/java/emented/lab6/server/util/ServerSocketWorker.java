@@ -18,7 +18,6 @@ import java.util.Set;
 
 public class ServerSocketWorker {
 
-    private static final int ARRAY_SIZE = 4096;
     private final int defaultPort = 228;
     private final int selectorDelay = 100;
     private Selector selector;
@@ -46,17 +45,21 @@ public class ServerSocketWorker {
         this.port = port;
     }
 
+    public void stopServer() throws IOException {
+        selector.close();
+        datagramChannel.close();
+    }
+
     public Request listenForRequest() throws IOException, ClassNotFoundException {
-        if (selector.select(selectorDelay) == 0) {
-            return null;
-        }
+        selector.select();
         Set<SelectionKey> readyKeys = selector.selectedKeys();
         Iterator<SelectionKey> iterator = readyKeys.iterator();
         while (iterator.hasNext()) {
             SelectionKey key = iterator.next();
             iterator.remove();
             if (key.isReadable()) {
-                ByteBuffer packet = ByteBuffer.allocate(ARRAY_SIZE);
+                int arraySize = datagramChannel.socket().getReceiveBufferSize();
+                ByteBuffer packet = ByteBuffer.allocate(arraySize);
                 socketAddress = datagramChannel.receive(packet);
                 ((Buffer) packet).flip();
                 byte[] bytes = new byte[packet.remaining()];

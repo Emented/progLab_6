@@ -17,12 +17,12 @@ public class ServerCommandListener {
 
     public String readCommand() {
         try {
-            ServerConfig.getTextPrinter().printText(TextColoring.getBlueText("Enter a command: "));
-            return sc.nextLine().toLowerCase(Locale.ROOT);
+            ServerConfig.getConsoleTextPrinter().printText(TextColoring.getBlueText("Enter a command: "));
+            return sc.nextLine().strip().toLowerCase(Locale.ROOT);
         } catch (NoSuchElementException e) {
-            ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("An invalid character has been entered, forced shutdown!"));
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("An invalid character has been entered, forced shutdown!"));
             System.exit(1);
+            return null;
         }
-        return TextColoring.getRedText("An error occurred");
     }
 }

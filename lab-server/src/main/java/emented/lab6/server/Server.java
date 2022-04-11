@@ -15,7 +15,7 @@ public final class Server {
 //            ServerWorker serverWorker = new ServerWorker(args[0]);
 //            serverWorker.startServerWorker();
 //        } else {
-//            ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("Wrong amount of args during entering launch command, " +
+//            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("Wrong amount of args during entering launch command, " +
 //                    "you must enter only file name for collection"));
 //            System.exit(1);
 //        }

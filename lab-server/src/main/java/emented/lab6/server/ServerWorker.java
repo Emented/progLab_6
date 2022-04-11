@@ -37,8 +37,8 @@ public class ServerWorker {
     private final Scanner scanner = new Scanner(System.in);
     private final int maxPort = 65535;
     private ServerSocketWorker serverSocketWorker;
-    private String fileName;
-    private ServerCommandListener serverCommandListener = new ServerCommandListener(scanner);
+    private final String fileName;
+    private final ServerCommandListener serverCommandListener = new ServerCommandListener(scanner);
     private CollectionManager collectionManager;
     private CommandManager commandManager;
     private final XMLParser parser = new XMLParser();
@@ -68,50 +68,50 @@ public class ServerWorker {
                     new CountLessThatNumberOfParticipantsCommand(collectionManager),
                     new ExecuteScriptCommand(),
                     new ServerHelpCommand(ServerConfig.getServerAvailableCommands()),
-                    new ServerExitCommand(scanner, parser, collectionManager),
+                    new ServerExitCommand(scanner, parser, collectionManager, serverSocketWorker),
                     new ServerSaveCommand(collectionManager, parser),
                     new ServerHistoryCommand(ServerConfig.getClientCommandHistory().getHistory()));
             inputPort();
-            ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Welcome to the server! To see the list of commands input HELP"));
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Welcome to the server! To see the list of commands input HELP"));
             RequestThread requestThread = new RequestThread(serverSocketWorker, commandManager);
             ConsoleThread consoleThread = new ConsoleThread(serverCommandListener, commandManager);
             requestThread.start();
             consoleThread.start();
         } catch (IOException e) {
-            ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
         } catch (ConversionException e) {
-            ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("Error during type conversion"));
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("Error during type conversion"));
             System.exit(1);
         }
     }
 
     private void inputPort() throws IOException {
-        ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Do you want to use a default port? [y/n]"));
+        ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Do you want to use a default port? [y/n]"));
         try {
-            String s = scanner.nextLine().toLowerCase(Locale.ROOT);
+            String s = scanner.nextLine().strip().toLowerCase(Locale.ROOT);
             if ("n".equals(s)) {
-                ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Please enter the remote host port (1-65535)"));
+                ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Please enter the remote host port (1-65535)"));
                 String port = scanner.nextLine();
                 try {
                     int portInt = Integer.parseInt(port);
                     if (portInt > 0 && portInt <= maxPort) {
                         serverSocketWorker = new ServerSocketWorker(portInt);
                     } else {
-                        ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("The number did not fall within the limits, repeat the input"));
+                        ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("The number did not fall within the limits, repeat the input"));
                         inputPort();
                     }
                 } catch (IllegalArgumentException e) {
-                    ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("Error processing the number, repeat the input"));
+                    ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("Error processing the number, repeat the input"));
                     inputPort();
                 }
             } else if ("y".equals(s)) {
                 serverSocketWorker = new ServerSocketWorker();
             } else {
-                ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("You entered not valid symbol, try again"));
+                ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("You entered not valid symbol, try again"));
                 inputPort();
             }
         } catch (NoSuchElementException e) {
-            ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("An invalid character has been entered, forced shutdown!"));
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("An invalid character has been entered, forced shutdown!"));
             System.exit(1);
         }
     }

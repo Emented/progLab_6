@@ -54,7 +54,7 @@ public class CommandManager {
     }
 
     public Response executeClientCommand(Request request) {
-        ServerConfig.getClientCommandHistory().pushCommand(TextColoring.getBlueText(request.getCurrentTime().format(DateTimeFormatter.ofPattern("H:m:s")))
+        ServerConfig.getClientCommandHistory().pushCommand(TextColoring.getBlueText(request.getCurrentTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")))
                 + " " + TextColoring.getGreenText(request.getClientInfo()) + ": " + request.getCommandName());
         return ServerConfig.getClientAvailableCommands().get(request.getCommandName()).executeClientCommand(request);
     }

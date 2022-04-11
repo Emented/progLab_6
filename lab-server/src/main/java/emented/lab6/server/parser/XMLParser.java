@@ -53,10 +53,10 @@ public class XMLParser {
         collection.reassignIds();
         String res = FileValidator.validateClass(collection);
         if (res != null) {
-            ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText(res));
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(res));
             System.exit(1);
         } else {
-            ServerConfig.getTextPrinter().printlnText(TextColoring.getGreenText("Successfully transfered data from file, the application is launched"));
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Successfully transfered data from file, the application is launched"));
         }
         collection.setFileName(fileName);
         collection.setDateOfInitialization(LocalDate.now());

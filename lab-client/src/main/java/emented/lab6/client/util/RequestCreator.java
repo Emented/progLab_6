@@ -23,7 +23,7 @@ public class RequestCreator {
         } else if (AvailableCommands.COMMANDS_WITH_BAND_ID_ARGS.contains(name)) {
             request = createRequestWithBandID(command);
         } else {
-            ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("There is no such command, type HELP to get list on commands"));
+            ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("There is no such command, type HELP to get list on commands"));
             request = null;
         }
         return request;
@@ -34,7 +34,7 @@ public class RequestCreator {
             CommandValidators.validateAmountOfArgs(command.getCommandArgs(), 0);
             return new Request(command.getCommandName());
         } catch (WrongAmountOfArgsException e) {
-            ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
+            ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
             return null;
         }
     }
@@ -48,10 +48,10 @@ public class RequestCreator {
                     command.getCommandArgs()[0]);
             return new Request(command.getCommandName(), id);
         } catch (WrongAmountOfArgsException | WrongArgException e) {
-            ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
+            ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
             return null;
         } catch (IllegalArgumentException e) {
-            ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("Wrong data type of argument"));
+            ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("Wrong data type of argument"));
             return null;
         }
     }
@@ -65,10 +65,10 @@ public class RequestCreator {
                     command.getCommandArgs()[0]);
             return new Request(command.getCommandName(), numberOfParticipants);
         } catch (WrongAmountOfArgsException | WrongArgException e) {
-            ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
+            ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
             return null;
         } catch (IllegalArgumentException e) {
-            ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("Wrong data type of argument"));
+            ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("Wrong data type of argument"));
             return null;
         }
     }
@@ -80,7 +80,7 @@ public class RequestCreator {
             generator.setVariables();
             return new Request(command.getCommandName(), generator.getGeneratedMusicBand());
         } catch (WrongAmountOfArgsException e) {
-            ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
+            ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
             return null;
         }
     }
@@ -96,10 +96,10 @@ public class RequestCreator {
             generator.setVariables();
             return new Request(command.getCommandName(), id, generator.getGeneratedMusicBand());
         } catch (WrongAmountOfArgsException | WrongArgException e) {
-            ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
+            ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(e.getMessage()));
             return null;
         } catch (IllegalArgumentException e) {
-            ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("Wrong data type of argument"));
+            ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("Wrong data type of argument"));
             return null;
         }
     }

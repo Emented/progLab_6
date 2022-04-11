@@ -1,11 +1,7 @@
 package emented.lab6.server;
 
-import emented.lab6.server.ServerConfig;
-import emented.lab6.server.util.CollectionManager;
 import emented.lab6.server.util.CommandManager;
 import emented.lab6.server.util.ServerCommandListener;
-
-import java.util.Scanner;
 
 public class ConsoleThread extends Thread {
 
@@ -21,7 +17,7 @@ public class ConsoleThread extends Thread {
     public void run() {
         while (ServerConfig.getRunning()) {
             String command = serverCommandListener.readCommand();
-            ServerConfig.getTextPrinter().printlnText(commandManager.executeServerCommand(command));
+            ServerConfig.getConsoleTextPrinter().printlnText(commandManager.executeServerCommand(command));
         }
     }
 
