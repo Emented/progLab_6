@@ -6,8 +6,8 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 import emented.lab6.common.util.StreamUtil;
 import emented.lab6.common.util.TextColoring;
 import emented.lab6.server.ServerConfig;
-import emented.lab6.server.validator.FileValidator;
 import emented.lab6.server.util.CollectionManager;
+import emented.lab6.server.validator.FileValidator;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -43,20 +43,21 @@ public class XMLParser {
      * @return Экземпляр класса, хранящего в себе коллекцию
      * @throws IOException Возможна ошибка доступа либо отсутствия файла по данному адресу
      */
-    public CollectionManager readFromXML(String fileName) throws IOException {
+    public CollectionManager readFromXML(String fileName) throws IOException, ConversionException {
         FileInputStream stream = new FileInputStream(fileName);
         initializeParser();
         String xmlText = converter.streamToString(stream);
         stream.close();
-        CollectionManager collection = null;
-        try {
-            collection = (CollectionManager) xStream.fromXML(xmlText);
-        } catch (ConversionException e) {
-            ServerConfig.getTextPrinter().printlnText(TextColoring.getRedText("Error during type conversion"));
-            System.exit(1);
-        }
+        CollectionManager collection;
+        collection = (CollectionManager) xStream.fromXML(xmlText);
         collection.reassignIds();
-        FileValidator.validateClass(collection);
+        String res = FileValidator.validateClass(collection);
+        if (res != null) {
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(res));
+            System.exit(1);
+        } else {
+            ServerConfig.getConsoleTextPrinter().printlnText(TextColoring.getGreenText("Successfully transfered data from file, the application is launched"));
+        }
         collection.setFileName(fileName);
         collection.setDateOfInitialization(LocalDate.now());
         return collection;

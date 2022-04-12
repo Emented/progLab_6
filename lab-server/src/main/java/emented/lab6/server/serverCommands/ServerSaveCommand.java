@@ -1,5 +1,6 @@
 package emented.lab6.server.serverCommands;
 
+import emented.lab6.common.util.TextColoring;
 import emented.lab6.server.abstractions.AbstractServerCommand;
 import emented.lab6.server.parser.XMLParser;
 import emented.lab6.server.util.CollectionManager;
@@ -18,13 +19,12 @@ public class ServerSaveCommand extends AbstractServerCommand {
     }
 
     @Override
-    public String executeCommand() {
+    public String executeServerCommand() {
         try {
             parser.writeToXMLofExistingInstance(collectionInWork);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
-            //TODO
+            return TextColoring.getRedText(e.getMessage());
         }
-        return null;
+        return TextColoring.getGreenText("Collection was successfully saved");
     }
 }

@@ -10,7 +10,10 @@ import java.util.Scanner;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class CommandValidators {
+public final class CommandValidators {
+
+    private CommandValidators() {
+    }
 
     public static <T> T validateInput(Predicate<Object> predicate,
                                       String message,
@@ -19,7 +22,7 @@ public class CommandValidators {
                                       Function<String, T> function,
                                       Boolean nullable,
                                       Scanner sc) {
-        ClientConfig.getTextPrinter().printlnText(message);
+        ClientConfig.getConsoleTextPrinter().printlnText(message);
         String input;
         T value;
         do {
@@ -28,15 +31,15 @@ public class CommandValidators {
                 if ("".equals(input) && Boolean.TRUE.equals(nullable)) {
                     return null;
                 } else if ("".equals(input) && !Boolean.TRUE.equals(nullable)) {
-                    ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("This field cannot be null, repeat the input"));
+                    ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("This field cannot be null, repeat the input"));
                     continue;
                 }
                 value = function.apply(input);
             } catch (IllegalArgumentException e) {
-                ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText(error));
+                ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText(error));
                 continue;
             } catch (NoSuchElementException e) {
-                ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("Invalid character entered"));
+                ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("Invalid character entered"));
                 System.exit(1);
                 return null;
             }
@@ -68,7 +71,8 @@ public class CommandValidators {
 
     public static String validateStringInput(String message,
                                              Boolean nullable,
-                                             Scanner sc) {
+                                             Scanner sc,
+                                             int length) {
         System.out.println(message);
         String input;
         String value;
@@ -78,12 +82,17 @@ public class CommandValidators {
                 if ("".equals(input) && Boolean.TRUE.equals(nullable)) {
                     return null;
                 } else if ("".equals(input) && !Boolean.TRUE.equals(nullable)) {
-                    ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("This field cannot be null, repeat the input"));
+                    ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("This field cannot be null, repeat the input"));
                     continue;
                 }
-                value = input;
+                if (input.length() <= length) {
+                    value = input;
+                } else {
+                    ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("String is too long, repeat input"));
+                    continue;
+                }
             } catch (NoSuchElementException e) {
-                ClientConfig.getTextPrinter().printlnText(TextColoring.getRedText("Invalid character entered"));
+                ClientConfig.getConsoleTextPrinter().printlnText(TextColoring.getRedText("Invalid character entered"));
                 System.exit(1);
                 return null;
             }

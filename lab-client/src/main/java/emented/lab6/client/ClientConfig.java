@@ -1,19 +1,23 @@
 package emented.lab6.client;
 
-import emented.lab6.common.util.TextPrinter;
+import emented.lab6.common.abstractions.AbstractTextPrinter;
+import emented.lab6.common.util.ConsoleTextPrinter;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public final class ClientConfig {
-    private final static TextPrinter TEXT_PRINTER = new TextPrinter(System.out);
-    private final static Set<String> historyOfScripts = new HashSet<>();
+    private static final AbstractTextPrinter CONSOLE_TEXT_PRINTER = new ConsoleTextPrinter();
+    private static final Set<String> HISTORY_OF_SCRIPTS = new HashSet<>();
 
-    public static TextPrinter getTextPrinter() {
-        return TEXT_PRINTER;
+    private ClientConfig() {
+    }
+
+    public static AbstractTextPrinter getConsoleTextPrinter() {
+        return CONSOLE_TEXT_PRINTER;
     }
 
     public static Set<String> getHistoryOfScripts() {
-        return historyOfScripts;
+        return HISTORY_OF_SCRIPTS;
     }
 }

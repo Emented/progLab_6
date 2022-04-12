@@ -1,8 +1,14 @@
 package emented.lab6.common.util;
 
-import java.io.*;
 
-public class DeSerializer {
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+public final class DeSerializer {
+
+    private DeSerializer() {
+    }
 
     public static Request deSerializeRequest(byte[] acceptedBuf) throws IOException, ClassNotFoundException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(acceptedBuf);

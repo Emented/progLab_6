@@ -11,7 +11,7 @@ public class ExitCommand extends AbstractClientCommand {
     }
 
     @Override
-    public Response executeCommand(Request request) {
+    public Response executeClientCommand(Request request) {
         return null;
     }
 }

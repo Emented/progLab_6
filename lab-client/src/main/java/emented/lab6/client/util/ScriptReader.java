@@ -1,7 +1,5 @@
 package emented.lab6.client.util;
 
-import emented.lab6.common.util.StreamUtil;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;

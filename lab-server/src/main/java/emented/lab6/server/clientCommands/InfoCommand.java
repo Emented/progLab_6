@@ -1,9 +1,10 @@
 package emented.lab6.server.clientCommands;
 
-import emented.lab6.common.util.*;
+import emented.lab6.common.util.Request;
+import emented.lab6.common.util.Response;
+import emented.lab6.common.util.TextColoring;
 import emented.lab6.server.abstractions.AbstractClientCommand;
 import emented.lab6.server.util.CollectionManager;
-import org.w3c.dom.Text;
 
 public class InfoCommand extends AbstractClientCommand {
 
@@ -15,7 +16,7 @@ public class InfoCommand extends AbstractClientCommand {
     }
 
     @Override
-    public Response executeCommand(Request request) {
-        return new Response(new DefaultMassage(TextColoring.getGreenText("Info about collection:\n") + collectionInWork.returnInfo()));
+    public Response executeClientCommand(Request request) {
+        return new Response(TextColoring.getGreenText("Info about collection:\n") + collectionInWork.returnInfo());
     }
 }

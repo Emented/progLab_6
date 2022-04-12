@@ -2,9 +2,12 @@ package emented.lab6.server.util;
 
 import emented.lab6.common.util.Request;
 import emented.lab6.common.util.Response;
+import emented.lab6.common.util.TextColoring;
 import emented.lab6.server.ServerConfig;
 import emented.lab6.server.abstractions.AbstractClientCommand;
 import emented.lab6.server.abstractions.AbstractServerCommand;
+
+import java.time.format.DateTimeFormatter;
 
 public class CommandManager {
 
@@ -25,7 +28,8 @@ public class CommandManager {
                           AbstractClientCommand executeScriptCommand,
                           AbstractServerCommand helpServerCommand,
                           AbstractServerCommand exitServerCommand,
-                          AbstractServerCommand saveServerCommand) {
+                          AbstractServerCommand saveServerCommand,
+                          AbstractServerCommand historyServerCommand) {
 
         ServerConfig.getClientAvailableCommands().put(helpClientCommand.getName(), helpClientCommand);
         ServerConfig.getClientAvailableCommands().put(infoCommand.getName(), infoCommand);
@@ -46,10 +50,20 @@ public class CommandManager {
         ServerConfig.getServerAvailableCommands().put(helpServerCommand.getName(), helpServerCommand);
         ServerConfig.getServerAvailableCommands().put(exitServerCommand.getName(), exitServerCommand);
         ServerConfig.getServerAvailableCommands().put(saveServerCommand.getName(), saveServerCommand);
+        ServerConfig.getServerAvailableCommands().put(historyServerCommand.getName(), historyServerCommand);
     }
 
-    public Response executeCommandToResponse(Request request) {
-        ServerConfig.getClientCommandHistory().pushCommand(request.getCommandName());
-        return ServerConfig.getClientAvailableCommands().get(request.getCommandName()).executeCommand(request);
+    public Response executeClientCommand(Request request) {
+        ServerConfig.getClientCommandHistory().pushCommand(TextColoring.getBlueText(request.getCurrentTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")))
+                + " " + TextColoring.getGreenText(request.getClientInfo()) + ": " + request.getCommandName());
+        return ServerConfig.getClientAvailableCommands().get(request.getCommandName()).executeClientCommand(request);
+    }
+
+    public String executeServerCommand(String commandName) {
+        if (ServerConfig.getServerAvailableCommands().containsKey(commandName)) {
+            return ServerConfig.getServerAvailableCommands().get(commandName).executeServerCommand();
+        } else {
+            return TextColoring.getRedText("There is no such command, type HELP to get list on commands");
+        }
     }
 }

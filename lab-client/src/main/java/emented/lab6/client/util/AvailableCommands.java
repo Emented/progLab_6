@@ -4,18 +4,17 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AvailableCommands {
+public final class AvailableCommands {
 
-    public static final Set<String> commandsWithoutArgs = new HashSet<>();
-    public static final Set<String> commandsWithIdArg = new HashSet<>();
-    public static final Set<String> commandsWithNumberOfParticipantsArg = new HashSet<>();
-    public static final Set<String> commandsWithBandArg = new HashSet<>();
-    public static final Set<String> commandsWithBandIdArgs = new HashSet<>();
-    public static final String scriptArgumentCommand;
-
+    public static final Set<String> COMMANDS_WITHOUT_ARGS = new HashSet<>();
+    public static final Set<String> COMMANDS_WITH_ID_ARG = new HashSet<>();
+    public static final Set<String> COMMANDS_WITH_NUMBER_OF_PARTICIPANTS_ARG = new HashSet<>();
+    public static final Set<String> COMMANDS_WITH_BAND_ARG = new HashSet<>();
+    public static final Set<String> COMMANDS_WITH_BAND_ID_ARGS = new HashSet<>();
+    public static final String SCRIPT_ARGUMENT_COMMAND;
 
     static {
-        Collections.addAll(commandsWithoutArgs,
+        Collections.addAll(COMMANDS_WITHOUT_ARGS,
                 "help",
                 "show",
                 "info",
@@ -23,21 +22,24 @@ public class AvailableCommands {
                 "min_by_studio",
                 "clear"
         );
-        Collections.addAll(commandsWithIdArg,
+        Collections.addAll(COMMANDS_WITH_ID_ARG,
                 "remove_by_id"
         );
-        Collections.addAll(commandsWithNumberOfParticipantsArg,
+        Collections.addAll(COMMANDS_WITH_NUMBER_OF_PARTICIPANTS_ARG,
                 "count_less_than_number_of_participants",
                 "remove_any_by_number_of_participants"
         );
-        Collections.addAll(commandsWithBandArg,
+        Collections.addAll(COMMANDS_WITH_BAND_ARG,
                 "add",
                 "add_if_max",
                 "remove_greater"
         );
-        Collections.addAll(commandsWithBandIdArgs,
+        Collections.addAll(COMMANDS_WITH_BAND_ID_ARGS,
                 "update");
-        scriptArgumentCommand = "execute_script";
+        SCRIPT_ARGUMENT_COMMAND = "execute_script";
+    }
+
+    private AvailableCommands() {
     }
 
 }

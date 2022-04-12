@@ -2,15 +2,19 @@ package emented.lab6.server.util;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import emented.lab6.common.entities.MusicBand;
 import emented.lab6.common.exceptions.CollectionIsEmptyException;
 import emented.lab6.common.exceptions.GroupNotFoundException;
 import emented.lab6.common.exceptions.GroupNotMaxException;
 import emented.lab6.common.exceptions.IDNotFoundException;
-import emented.lab6.common.entities.MusicBand;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -54,8 +58,9 @@ public class CollectionManager {
     public void reassignIds() {
         for (MusicBand m : musicBands) {
             m.setId(idCounter++);
-        };
+        }
     }
+
     /**
      * Метод, возвращающий дату инициалзации
      *
@@ -185,10 +190,14 @@ public class CollectionManager {
      *
      * @param numberOfParticipants Число участников для сравнения
      */
-    public void removeAnyByNumberOfParticipants(Long numberOfParticipants) throws GroupNotFoundException, CollectionIsEmptyException {
+    public MusicBand removeAnyByNumberOfParticipants(Long numberOfParticipants) throws GroupNotFoundException, CollectionIsEmptyException {
         if (!musicBands.isEmpty()) {
-            if (!musicBands.removeIf(mb -> Objects.equals(mb.getNumberOfParticipants(), numberOfParticipants))) {
+            List<MusicBand> matchBands = musicBands.stream().filter(mb -> Objects.equals(mb.getNumberOfParticipants(), numberOfParticipants)).collect(Collectors.toList());
+            if (matchBands.isEmpty()) {
                 throw new GroupNotFoundException("There is no group with this number of participants");
+            } else {
+                musicBands.remove(matchBands.get(0));
+                return matchBands.get(0);
             }
         } else {
             throw new CollectionIsEmptyException("Collection is empty");

@@ -7,7 +7,7 @@
       	
   
   
-  <groupId>org.example</groupId>
+  <groupId>emented.lab6</groupId>
       	
   
   
@@ -124,21 +124,21 @@
           
           
           <dependency>
-                                    						
-            
-            
+
+
+
             <groupId>com.puppycrawl.tools</groupId>
-                                    						
-            
-            
+
+
+
             <artifactId>checkstyle</artifactId>
-                                    						
-            
-            
+
+
+
             <version>8.37</version>
-                                    					
-          
-          
+
+
+
           </dependency>
                               				
         

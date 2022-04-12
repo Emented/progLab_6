@@ -6,17 +6,23 @@ import emented.lab6.common.util.Response;
 import emented.lab6.common.util.Serializer;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 
 public class ClientSocketWorker {
-    private int port = 228;
-    private String address = "localhost";
-    private final int TIME_TO_RESPONSE = 4000;
+    private final int defaultPort = 228;
+    private final int timeToResponse = 4000;
     private final DatagramSocket datagramSocket;
+    private int port;
+    private String address = "localhost";
     private InetAddress serverAddress;
 
     public ClientSocketWorker() throws UnknownHostException, SocketException {
+        port = defaultPort;
         datagramSocket = new DatagramSocket();
         serverAddress = InetAddress.getByName(address);
     }
@@ -25,12 +31,12 @@ public class ClientSocketWorker {
         return port;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public void setAddress(String address) throws UnknownHostException {
@@ -46,9 +52,10 @@ public class ClientSocketWorker {
     }
 
     public Response receiveResponse() throws ClassNotFoundException, IOException {
-        byte[] byteBuf = new byte[4096];
+        datagramSocket.setSoTimeout(timeToResponse);
+        int receivedSize = datagramSocket.getReceiveBufferSize();
+        byte[] byteBuf = new byte[receivedSize];
         DatagramPacket dpFromServer = new DatagramPacket(byteBuf, byteBuf.length);
-        datagramSocket.setSoTimeout(TIME_TO_RESPONSE);
         datagramSocket.receive(dpFromServer);
         byte[] bytesFromServer = dpFromServer.getData();
         return DeSerializer.deSerializeResponse(bytesFromServer);
